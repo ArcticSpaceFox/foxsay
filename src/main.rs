@@ -23,10 +23,16 @@ fn main() -> Result<(), ExitFailure> {
     let mut message = String::new();
     if atty::isnt(Stream::Stdin) {
         io::stdin().read_to_string(&mut message)?;
+        if message.len() <= 1 {
+            return Err(ExitFailure::from(failure::err_msg(
+                "Fox has nothing to say",
+            )));
+        }
     } else {
         if let Some(m) = options.message {
             message = m
         } else {
+            eprintln!("{}", "No message provided".red());
             return Err(ExitFailure::from(failure::err_msg(
                 "Fox has nothing to say",
             )));
