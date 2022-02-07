@@ -5,4 +5,5 @@ edition = "2021"
 authors = ["ArcticSpaceFox <contact@spacefoxlabs.com>"]
 
 [dependencies]
+colored = "2.0"
 structopt = "0.3"

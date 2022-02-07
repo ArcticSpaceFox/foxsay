@@ -1,3 +1,4 @@
+use colored::*;
 use structopt::StructOpt;
 
 #[derive(StructOpt, Debug)]
@@ -12,9 +13,13 @@ struct Options {
 
 fn main() {
     let options = Options::from_args();
-    let eye = if options.dead { "x" } else { "*" };
+    let eye = if options.dead {
+        "x".red().bold()
+    } else {
+        "*".bright_cyan()
+    };
 
-    println!("{}", options.message);
+    println!("{}", options.message.bright_blue().underline());
 
     // Print fox
     println!(" \\");
