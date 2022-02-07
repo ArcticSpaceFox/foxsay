@@ -1,12 +1,14 @@
+use atty::Stream;
 use colored::*;
 use exitfailure::ExitFailure;
 use failure::ResultExt;
+use std::io::{self, Read};
 use structopt::StructOpt;
 
 #[derive(StructOpt, Debug)]
 struct Options {
     /// What does the fox say?
-    message: String,
+    message: Option<String>,
 
     #[structopt(short = "d", long = "dead")]
     /// Make the fox look dead
@@ -18,13 +20,25 @@ struct Options {
 
 fn main() -> Result<(), ExitFailure> {
     let options = Options::from_args();
+    let mut message = String::new();
+    if atty::isnt(Stream::Stdin) {
+        io::stdin().read_to_string(&mut message)?;
+    } else {
+        if let Some(m) = options.message {
+            message = m
+        } else {
+            return Err(ExitFailure::from(failure::err_msg(
+                "Fox has nothing to say",
+            )));
+        };
+    };
     let eye = if options.dead {
         "x".red().bold()
     } else {
         "*".bright_cyan()
     };
 
-    println!("{}", options.message.bright_blue().underline());
+    println!("{}", message.bright_blue().underline());
 
     // Print fox
     match &options.foxfile {

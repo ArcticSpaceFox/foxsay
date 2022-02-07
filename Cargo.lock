@@ -137,6 +137,7 @@ dependencies = [
 name = "foxsay"
 version = "0.1.0"
 dependencies = [
+ "atty",
  "colored",
  "exitfailure",
  "failure",
