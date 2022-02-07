@@ -1,4 +1,6 @@
 use colored::*;
+use exitfailure::ExitFailure;
+use failure::ResultExt;
 use structopt::StructOpt;
 
 #[derive(StructOpt, Debug)]
@@ -14,7 +16,7 @@ struct Options {
     foxfile: Option<std::path::PathBuf>,
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() -> Result<(), ExitFailure> {
     let options = Options::from_args();
     let eye = if options.dead {
         "x".red().bold()
@@ -27,7 +29,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Print fox
     match &options.foxfile {
         Some(path) => {
-            let fox_template = std::fs::read_to_string(path)?;
+            let fox_template = std::fs::read_to_string(path)
+                .with_context(|_| format!("Could not read file {}", path.display()))?;
             println!("{}", fox_template.replace("{eye}", &eye));
         }
         None => {

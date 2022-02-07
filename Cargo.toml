@@ -6,4 +6,6 @@ authors = ["ArcticSpaceFox <contact@spacefoxlabs.com>"]
 
 [dependencies]
 colored = "2.0"
+exitfailure = "0.5"
+failure = "0.1"
 structopt = "0.3"
