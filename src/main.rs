@@ -1,8 +1,15 @@
+use structopt::StructOpt;
+
+#[derive(StructOpt, Debug)]
+struct Options {
+    message: String,
+}
+
 fn main() {
-    let message = std::env::args()
-        .nth(1)
-        .expect("Fox does not know what to say. Usage: foxsay <message>");
-    println!("{}", message);
+    let options = Options::from_args();
+    println!("{}", options.message);
+
+    // Print fox
     println!(" \\");
     println!("  \\\n");
     println!("   /\\   /\\   Todd Vargo");
