@@ -14,7 +14,7 @@ struct Options {
     foxfile: Option<std::path::PathBuf>,
 }
 
-fn main() {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let options = Options::from_args();
     let eye = if options.dead {
         "x".red().bold()
@@ -27,8 +27,7 @@ fn main() {
     // Print fox
     match &options.foxfile {
         Some(path) => {
-            let fox_template = std::fs::read_to_string(path)
-                .expect(format!("Could not read file {}", path.display()).as_str());
+            let fox_template = std::fs::read_to_string(path)?;
             println!("{}", fox_template.replace("{eye}", &eye));
         }
         None => {
@@ -45,4 +44,6 @@ fn main() {
             println!("    _[ [ \\  /_/");
         }
     }
+
+    Ok(())
 }
