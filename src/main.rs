@@ -2,6 +2,8 @@ use structopt::StructOpt;
 
 #[derive(StructOpt, Debug)]
 struct Options {
+    #[structopt(default_value = "** mysterious fox noises **")]
+    /// What does the fox say?
     message: String,
 }
 
